@@ -39,18 +39,20 @@
             background: white; border-radius: 24px;
             box-shadow: 0 25px 60px rgba(0,0,0,0.25);
             width: 100%; max-width: 480px;
-            padding: 44px 44px;
+            padding: 32px 36px;
             position: relative; z-index: 1;
             animation: slideUp .5s ease;
+            max-height: 96vh;
+            overflow-y: auto;
         }
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        .brand-logo  { font-size: 2.8rem; text-align: center; margin-bottom: 6px; }
-        .brand-name  { text-align: center; font-size: 1.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 4px; }
-        .brand-sub   { text-align: center; color: #6c757d; font-size: .9rem; margin-bottom: 32px; }
+        .brand-logo  { font-size: 2.2rem; text-align: center; margin-bottom: 4px; }
+        .brand-name  { text-align: center; font-size: 1.3rem; font-weight: 800; color: var(--secondary); margin-bottom: 2px; }
+        .brand-sub   { text-align: center; color: #6c757d; font-size: .85rem; margin-bottom: 20px; }
 
         .form-control {
             border-radius: 12px; padding: 12px 16px; border: 2px solid #e9ecef;
@@ -104,10 +106,10 @@
         .strength-label { font-size: .75rem; margin-top: 4px; font-weight: 600; }
 
         /* Requirements checklist */
-        .req-list { list-style: none; padding: 0; margin: 8px 0 0; }
-        .req-list li { font-size: .78rem; color: #adb5bd; display: flex; align-items: center; gap: 6px; margin-bottom: 3px; transition: color .2s; }
+        .req-list { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+        .req-list li { font-size: .75rem; color: #adb5bd; display: flex; align-items: center; gap: 4px; transition: color .2s; }
         .req-list li.met { color: var(--primary); }
-        .req-list li i { font-size: .7rem; }
+        .req-list li i { font-size: .65rem; }
 
         .alert { border-radius: 12px; font-size: .9rem; }
     </style>
@@ -138,7 +140,7 @@
         @csrf
 
         {{-- Name --}}
-        <div class="mb-3">
+        <div class="mb-2">
             <label class="form-label fw-semibold small">Full Name</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-person"></i></span>
@@ -152,7 +154,7 @@
         </div>
 
         {{-- Email --}}
-        <div class="mb-3">
+        <div class="mb-2">
             <label class="form-label fw-semibold small">Email Address</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-envelope"></i></span>
@@ -166,7 +168,7 @@
         </div>
 
         {{-- Password --}}
-        <div class="mb-3">
+        <div class="mb-2">
             <label class="form-label fw-semibold small">Password</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-lock"></i></span>
@@ -183,19 +185,21 @@
             </div>
             {{-- Strength bar --}}
             <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
-            <div class="strength-label" id="strengthLabel" style="color:#adb5bd">Enter a password</div>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="strength-label" id="strengthLabel" style="color:#adb5bd">Enter a password</div>
+            </div>
             {{-- Requirements --}}
-            <ul class="req-list mt-2" id="reqList">
-                <li id="req-len"><i class="bi bi-circle-fill"></i> At least 8 characters</li>
-                <li id="req-upper"><i class="bi bi-circle-fill"></i> One uppercase letter</li>
-                <li id="req-num"><i class="bi bi-circle-fill"></i> One number</li>
-                <li id="req-special"><i class="bi bi-circle-fill"></i> One special character</li>
+            <ul class="req-list" id="reqList">
+                <li id="req-len"><i class="bi bi-circle-fill"></i> 8+ chars</li>
+                <li id="req-upper"><i class="bi bi-circle-fill"></i> Uppercase</li>
+                <li id="req-num"><i class="bi bi-circle-fill"></i> Number</li>
+                <li id="req-special"><i class="bi bi-circle-fill"></i> Special char</li>
             </ul>
             @error('password')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
         </div>
 
         {{-- Confirm Password --}}
-        <div class="mb-4">
+        <div class="mb-3">
             <label class="form-label fw-semibold small">Confirm Password</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
