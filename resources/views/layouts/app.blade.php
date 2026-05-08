@@ -185,14 +185,44 @@
                         <i class="bi bi-envelope me-1"></i>Contact
                     </a>
                 </li>
+
+                {{-- Mobile: auth links inside the collapsible menu --}}
+                @auth
+                <li class="nav-item d-lg-none border-top border-secondary mt-2 pt-2">
+                    <a class="nav-link" href="{{ route('dashboard') }}">
+                        <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                    </a>
+                </li>
+                <li class="nav-item d-lg-none">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="nav-link btn btn-link text-start w-100 border-0 p-0" style="color:#f8d7da!important;padding-left:0!important">
+                            <i class="bi bi-box-arrow-right me-1"></i>Sign Out
+                        </button>
+                    </form>
+                </li>
+                @else
+                <li class="nav-item d-lg-none border-top border-secondary mt-2 pt-2">
+                    <a class="nav-link" href="{{ route('login') }}">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                    </a>
+                </li>
+                <li class="nav-item d-lg-none">
+                    <a class="nav-link" href="{{ route('register') }}">
+                        <i class="bi bi-person-plus me-1"></i>Register
+                    </a>
+                </li>
+                @endauth
             </ul>
+
+            {{-- Desktop: auth buttons outside the ul --}}
             @auth
-            <div class="dropdown ms-3">
+            <div class="dropdown ms-3 d-none d-lg-block">
                 <button class="btn btn-eco dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
                     <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                     </div>
-                    <span class="d-none d-xl-inline">{{ Auth::user()->name }}</span>
+                    <span>{{ Auth::user()->name }}</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2" style="min-width:200px">
                     <li>
@@ -216,11 +246,11 @@
                 </ul>
             </div>
             @else
-            <div class="d-flex gap-2 ms-3">
-                <a href="{{ route('login') }}" class="btn btn-outline-light rounded-pill px-4 d-none d-lg-inline-flex">
+            <div class="d-none d-lg-flex gap-2 ms-3">
+                <a href="{{ route('login') }}" class="btn btn-outline-light rounded-pill px-4">
                     <i class="bi bi-box-arrow-in-right me-1"></i>Login
                 </a>
-                <a href="{{ route('register') }}" class="btn btn-eco d-none d-lg-inline-flex">
+                <a href="{{ route('register') }}" class="btn btn-eco">
                     <i class="bi bi-person-plus me-1"></i>Register
                 </a>
             </div>
