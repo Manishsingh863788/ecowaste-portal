@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["php82", "php82Extensions.pdo", "php82Extensions.pdo_mysql", "php82Extensions.mbstring", "php82Extensions.tokenizer", "php82Extensions.xml", "php82Extensions.ctype", "php82Extensions.fileinfo", "php82Extensions.openssl", "php82Extensions.curl", "php82Extensions.zip", "php82Extensions.bcmath", "composer_2"]
+nixPkgs = ["php82", "php82Extensions.pdo", "php82Extensions.pdo_sqlite", "php82Extensions.pdo_mysql", "php82Extensions.mbstring", "php82Extensions.tokenizer", "php82Extensions.xml", "php82Extensions.ctype", "php82Extensions.fileinfo", "php82Extensions.openssl", "php82Extensions.curl", "php82Extensions.zip", "php82Extensions.bcmath", "composer_2"]
 
 [phases.install]
 cmds = ["composer install --no-dev --optimize-autoloader --no-interaction"]
@@ -7,8 +7,9 @@ cmds = ["composer install --no-dev --optimize-autoloader --no-interaction"]
 [phases.build]
 cmds = [
     "chmod -R 775 storage bootstrap/cache",
+    "touch database/database.sqlite",
     "php artisan view:cache"
 ]
 
 [start]
-cmd = "php artisan config:clear && php artisan storage:link && php artisan migrate --force && (php artisan db:seed --force 2>/dev/null || true) && php -S 0.0.0.0:$PORT -t public"
+cmd = "php artisan config:clear && php artisan migrate --force && (php artisan db:seed --force 2>/dev/null || true) && php -S 0.0.0.0:$PORT -t public"
