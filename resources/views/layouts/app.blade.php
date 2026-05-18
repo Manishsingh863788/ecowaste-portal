@@ -170,6 +170,9 @@
                         <i class="bi bi-plus-circle me-1"></i>New Request
                     </a>
                 </li>
+                {{-- Admin only links --}}
+                @auth
+                @if(Auth::user()->is_admin)
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('request.track') ? 'active' : '' }}" href="{{ route('request.track') }}">
                         <i class="bi bi-search me-1"></i>Track Request
@@ -180,6 +183,8 @@
                         <i class="bi bi-list-ul me-1"></i>All Requests
                     </a>
                 </li>
+                @endif
+                @endauth
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">
                         <i class="bi bi-envelope me-1"></i>Contact
