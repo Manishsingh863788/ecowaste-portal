@@ -31,13 +31,13 @@ Route::middleware('auth')->group(function () {
 
 // ── Admin Only ────────────────────────────────────────────────────
 Route::middleware(['auth', 'admin'])->group(function () {
-    // Track request — admin only
-    Route::match(['get', 'post'], '/request/track', [WasteRequestController::class, 'track'])->name('request.track');
-
-    // All requests list + status update
+    // All requests list + status update — admin only
     Route::get('/requests', [WasteRequestController::class, 'index'])->name('requests.index');
     Route::patch('/requests/{wasteRequest}/status', [WasteRequestController::class, 'updateStatus'])->name('requests.updateStatus');
 });
+
+// ── Public: Track (everyone can track, but cannot change status) ──
+Route::match(['get', 'post'], '/request/track', [WasteRequestController::class, 'track'])->name('request.track');
 
 // ── Public: Contact ───────────────────────────────────────────────
 Route::get('/contact',  [ContactController::class, 'index'])->name('contact');

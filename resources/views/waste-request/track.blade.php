@@ -131,6 +131,32 @@
                         <i class="bi bi-house me-1"></i>Home
                     </a>
                 </div>
+
+                {{-- Admin only: update status directly from track page --}}
+                @auth
+                @if(Auth::user()->is_admin)
+                <div class="mt-4 p-3 rounded-3" style="background:#f0faf5;border:2px solid #d8f3dc">
+                    <h6 class="fw-bold mb-3">
+                        <i class="bi bi-shield-lock me-2" style="color:var(--primary)"></i>
+                        Admin: Update Status
+                    </h6>
+                    <form action="{{ route('requests.updateStatus', $wasteRequest) }}" method="POST" class="d-flex gap-2">
+                        @csrf
+                        @method('PATCH')
+                        <select name="status" class="form-select">
+                            @foreach(['pending','confirmed','in_progress','completed','cancelled'] as $s)
+                            <option value="{{ $s }}" {{ $wasteRequest->status == $s ? 'selected' : '' }}>
+                                {{ ucfirst(str_replace('_', ' ', $s)) }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn btn-eco px-4 text-nowrap">
+                            <i class="bi bi-check-lg me-1"></i>Update
+                        </button>
+                    </form>
+                </div>
+                @endif
+                @endauth
             </div>
             @endif
 
