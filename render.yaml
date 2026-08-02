@@ -1,7 +1,7 @@
 services:
   - type: web
     name: ecowaste-portal
-    env: nixpacks
+    env: docker
     plan: free
     envVars:
       - key: APP_NAME
