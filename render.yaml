@@ -1,9 +1,7 @@
 services:
   - type: web
     name: ecowaste-portal
-    runtime: static
-    buildCommand: ""
-    # Using nixpacks - Render auto-detects nixpacks.toml
+    env: nixpacks
     plan: free
     envVars:
       - key: APP_NAME
