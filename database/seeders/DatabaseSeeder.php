@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Demo admin user — safe to run multiple times
-        User::firstOrCreate(
+        User::updateOrCreate(
             ['email' => 'admin@ecowaste.com'],
             [
                 'name'     => 'Admin User',

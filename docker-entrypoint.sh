@@ -27,8 +27,9 @@ php artisan config:clear
 php artisan route:clear
 php artisan view:clear
 
-# Run database migrations
+# Run database migrations & seeders
 php artisan migrate --force || echo "Migration notice: could not complete migrations."
+php artisan db:seed --force || echo "Seeder notice: could not complete seeding."
 
 # Cache configuration, routes, and views for production performance
 php artisan config:cache
