@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\WasteRequest;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,8 +23,8 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Recycling tips — only seed if table is empty
-        if (RecyclingTip::count() === 0) {
+        // Recycling tips — only seed if table exists and is empty
+        if (Schema::hasTable('recycling_tips') && RecyclingTip::count() === 0) {
             $tips = [
                 ['title' => 'Rinse Before Recycling',   'content' => 'Always rinse food containers before placing them in the recycling bin. Food residue can contaminate entire batches of recyclables.',                                          'category' => 'General',     'icon' => '🚿'],
                 ['title' => 'Flatten Cardboard Boxes',  'content' => 'Flatten all cardboard boxes before recycling. This saves space in collection vehicles and makes processing more efficient.',                                                  'category' => 'Paper',       'icon' => '📦'],
@@ -37,8 +38,8 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // Sample requests — only seed if table is empty
-        if (WasteRequest::count() === 0) {
+        // Sample requests — only seed if table exists and is empty
+        if (Schema::hasTable('waste_requests') && WasteRequest::count() === 0) {
             $sampleRequests = [
                 [
                     'tracking_number'     => 'WM-SAMPLE01',
@@ -61,7 +62,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'tracking_number'     => 'WM-SAMPLE02',
                     'full_name'           => 'Sarah Johnson',
-                    'email'              => 'sarah@example.com',
+                    'email'               => 'sarah@example.com',
                     'phone'               => '07700900002',
                     'address'             => '45 Oak Street',
                     'city'                => 'Manchester',

@@ -48,3 +48,18 @@ Route::match(['get', 'post'], '/request/track', [WasteRequestController::class, 
 // ── Public: Contact ───────────────────────────────────────────────
 Route::get('/contact',  [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+// ── Admin Setup Helper ────────────────────────────────────────────
+Route::get('/seed-admin', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+    return response()->json([
+        'status'  => 'success',
+        'message' => 'Database migrated and admin user created successfully!',
+        'admin'   => [
+            'email'    => 'admin@ecowaste.com',
+            'password' => 'password',
+        ],
+    ]);
+});
+

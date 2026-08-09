@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\RecyclingTip;
 use App\Models\WasteRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $tips = RecyclingTip::all();
-        $totalRequests = WasteRequest::count();
-        $completedRequests = WasteRequest::where('status', 'completed')->count();
-        $recyclingRequests = WasteRequest::where('request_type', 'recycling')->count();
+        $tips = Schema::hasTable('recycling_tips') ? RecyclingTip::all() : collect();
+        $totalRequests = Schema::hasTable('waste_requests') ? WasteRequest::count() : 0;
+        $completedRequests = Schema::hasTable('waste_requests') ? WasteRequest::where('status', 'completed')->count() : 0;
+        $recyclingRequests = Schema::hasTable('waste_requests') ? WasteRequest::where('request_type', 'recycling')->count() : 0;
 
         // Cookie: track visit count
         $visitCount = (int) $request->cookie('visit_count', 0) + 1;
