@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["php83", "php83Extensions.pdo", "php83Extensions.pdo_pgsql", "php83Extensions.pdo_sqlite", "php83Extensions.mbstring", "php83Extensions.tokenizer", "php83Extensions.xml", "php83Extensions.ctype", "php83Extensions.fileinfo", "php83Extensions.openssl", "php83Extensions.curl", "php83Extensions.zip", "php83Extensions.bcmath", "composer_2", "nodejs_20", "npm-check-updates"]
+nixPkgs = ["php83", "php83Extensions.pdo", "php83Extensions.pdo_pgsql", "php83Extensions.pdo_sqlite", "php83Extensions.mbstring", "php83Extensions.tokenizer", "php83Extensions.xml", "php83Extensions.ctype", "php83Extensions.fileinfo", "php83Extensions.openssl", "php83Extensions.curl", "php83Extensions.zip", "php83Extensions.bcmath", "composer_2", "nodejs_20"]
 
 [phases.install]
 cmds = [
@@ -10,11 +10,8 @@ cmds = [
 [phases.build]
 cmds = [
     "npm run build",
-    "chmod -R 775 storage bootstrap/cache",
-    "php artisan config:cache",
-    "php artisan route:cache",
-    "php artisan view:cache"
+    "chmod -R 775 storage bootstrap/cache"
 ]
 
 [start]
-cmd = "php artisan migrate --force && php artisan db:seed --force && php -S 0.0.0.0:$PORT -t public"
+cmd = "php artisan config:clear && php artisan cache:clear && php artisan migrate --force && php artisan admin:create && php artisan config:cache && php artisan route:cache && php artisan view:cache && php -S 0.0.0.0:$PORT -t public"
