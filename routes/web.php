@@ -51,15 +51,32 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 
 // ── Admin Setup Helper ────────────────────────────────────────────
 Route::get('/seed-admin', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-    \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
-    return response()->json([
-        'status'  => 'success',
-        'message' => 'Database migrated and admin user created successfully!',
-        'admin'   => [
-            'email'    => 'admin@ecowaste.com',
-            'password' => 'password',
-        ],
-    ]);
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        $migrateOutput = \Illuminate\Support\Facades\Artisan::output();
+
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+        $seedOutput = \Illuminate\Support\Facades\Artisan::output();
+
+        $admin = \App\Models\User::where('email', 'admin@ecowaste.com')->first();
+
+        return response()->json([
+            'status'         => 'success',
+            'message'        => 'Database migrated and admin user created!',
+            'migrate_output' => $migrateOutput,
+            'seed_output'    => $seedOutput,
+            'admin_exists'   => (bool) $admin,
+            'admin'          => [
+                'email'    => 'admin@ecowaste.com',
+                'password' => 'password',
+                'is_admin' => $admin ? $admin->is_admin : false,
+            ],
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status'  => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
 });
 
