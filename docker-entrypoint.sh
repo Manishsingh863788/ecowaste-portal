@@ -16,6 +16,12 @@ mkdir -p storage/framework/views \
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 
+# Ensure database directory and database.sqlite exist with proper permissions
+mkdir -p database
+touch database/database.sqlite
+chown -R www-data:www-data database
+chmod 664 database/database.sqlite
+
 # Ensure valid base64 APP_KEY exists
 if [[ -z "$APP_KEY" || "$APP_KEY" != base64:* ]]; then
     echo "Generating new production APP_KEY..."
