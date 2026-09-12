@@ -18,27 +18,9 @@ services:
           name: ecowaste-portal
           property: host
       - key: DB_CONNECTION
-        value: pgsql
-      - key: DB_HOST
-        fromDatabase:
-          name: ecowaste-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: ecowaste-db
-          property: port
+        value: sqlite
       - key: DB_DATABASE
-        fromDatabase:
-          name: ecowaste-db
-          property: database
-      - key: DB_USERNAME
-        fromDatabase:
-          name: ecowaste-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: ecowaste-db
-          property: password
+        value: /var/www/html/database/database.sqlite
       - key: SESSION_DRIVER
         value: file
       - key: CACHE_STORE
@@ -47,9 +29,3 @@ services:
         value: stderr
       - key: LOG_LEVEL
         value: error
-
-databases:
-  - name: ecowaste-db
-    plan: free
-    databaseName: ecowaste
-    user: ecowaste
